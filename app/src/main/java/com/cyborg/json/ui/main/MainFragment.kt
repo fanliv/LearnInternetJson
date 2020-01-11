@@ -24,6 +24,7 @@ class MainFragment : Fragment() {
 //        return inflater.inflate(R.layout.main_fragment, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        binding.listToys.adapter = ToysAdapter()
         return binding.root
     }
 

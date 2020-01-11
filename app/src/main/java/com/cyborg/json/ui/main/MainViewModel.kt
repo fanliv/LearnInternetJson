@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.cyborg.json.network.ToyNetworkModel
 import com.cyborg.json.network.ToysApi
 import kotlinx.coroutines.*
+import retrofit2.HttpException
 import java.lang.Exception
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -24,10 +25,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun getToysFromInternet() {
         coroutineScope.launch {
+            val getToysDeferred = ToysApi.retrofitService.getToys()
             try {
-                _toys.value = ToysApi.retrofitService.getToys().await()
+                _toys.value = getToysDeferred.await()
                 Log.i("luffy", "success")
-            }catch (e: Exception){
+            }catch (e: HttpException){
                 Log.i("luffy", "${e.message}")
             }
         }
