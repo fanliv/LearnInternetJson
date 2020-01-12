@@ -3,19 +3,19 @@ package com.cyborg.json.ui.main
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.cyborg.json.network.ToyNetworkModel
+import com.cyborg.json.database.getDatabase
 import com.cyborg.json.network.ToysApi
-import kotlinx.coroutines.*
-import retrofit2.HttpException
-import java.lang.Exception
+import com.cyborg.json.repository.ToysRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import java.io.IOException
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private val _toys = MutableLiveData<List<ToyNetworkModel>>()
-    val toys: LiveData<List<ToyNetworkModel>>
-        get() =  _toys
+
+    private val repository = ToysRepository(getDatabase(application))
+    val toys = repository.toys
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
@@ -27,9 +27,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         coroutineScope.launch {
             val getToysDeferred = ToysApi.retrofitService.getToys()
             try {
-                _toys.value = getToysDeferred.await()
+                repository.refreshToys()
                 Log.i("luffy", "success")
-            }catch (e: HttpException){
+            }catch (e: IOException){
                 Log.i("luffy", "${e.message}")
             }
         }

@@ -13,7 +13,7 @@ private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 private val retrofit = Retrofit.Builder().addCallAdapterFactory(CoroutineCallAdapterFactory()).addConverterFactory(MoshiConverterFactory.create(moshi)).baseUrl("https://jsonplaceholder.typicode.com/").build()
 interface ToysApiService{
     @GET("photos")
-    fun getToys(): Deferred<List<ToyNetworkModel>>
+    fun getToys(): Deferred<List<NetworkToy>>
 }
 
 object ToysApi{

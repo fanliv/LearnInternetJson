@@ -5,17 +5,14 @@
     <data>
         <variable
             name="toy"
-            type="com.cyborg.json.network.ToyNetworkModel" />
+            type="com.cyborg.json.domain.DomainToy" />
     </data>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="170dp">
-
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="170dp"
+            android:padding="2dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             app:bindImage="@{toy.thumbnailUrl}" />
-    </FrameLayout>
 </layout>

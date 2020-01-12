@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cyborg.json.databinding.ToyItemBinding
-import com.cyborg.json.network.ToyNetworkModel
+import com.cyborg.json.domain.DomainToy
 
-class ToysAdapter: ListAdapter<ToyNetworkModel, ToysAdapter.ToysViewHolder>(DiffCallback) {
+class ToysAdapter: ListAdapter<DomainToy, ToysAdapter.ToysViewHolder>(DiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToysViewHolder {
         return ToysViewHolder(ToyItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
@@ -18,21 +18,21 @@ class ToysAdapter: ListAdapter<ToyNetworkModel, ToysAdapter.ToysViewHolder>(Diff
         holder.bind(toy)
     }
     class ToysViewHolder(private val binding: ToyItemBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(toy: ToyNetworkModel){
+        fun bind(toy: DomainToy){
             binding.toy = toy
             binding.executePendingBindings()
         }
     }
 
 
-    companion object DiffCallback: DiffUtil.ItemCallback<ToyNetworkModel>() {
-        override fun areItemsTheSame(oldItem: ToyNetworkModel, newItem: ToyNetworkModel): Boolean {
+    companion object DiffCallback: DiffUtil.ItemCallback<DomainToy>() {
+        override fun areItemsTheSame(oldItem: DomainToy, newItem: DomainToy): Boolean {
             return oldItem===newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: ToyNetworkModel,
-            newItem: ToyNetworkModel
+            oldItem: DomainToy,
+            newItem: DomainToy
         ): Boolean {
             return oldItem.id == newItem.id
         }
